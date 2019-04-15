@@ -19,14 +19,11 @@ if (has("termguicolors"))
  set termguicolors
 endif
 
-colorscheme batman
-
 " Open help in vertical window with 'h'
 cabbrev h vert h
 
 " Auto source rc on save
 autocmd! bufwritepost ~/.vim/rcs/general.vim source ~/.vim/rcs/general.vim
-autocmd! bufwritepost ~/.vim/rcs/general.vim AirlineRefresh
 autocmd! bufwritepost ~/.vim/rcs/plugins.vim source ~/.vim/rcs/plugins.vim
 autocmd! bufwritepost ~/.vim/rcs/keys.vim source ~/.vim/rcs/keys.vim
 autocmd! bufwritepost ~/.vim/rcs/filetypes.vim source ~/.vim/rcs/filetypes.vim
@@ -118,12 +115,14 @@ syntax enable
 
 set background=dark
 
+colorscheme industry
 " Set extra options when running in GUI mode
 if has("gui_running")
     set guioptions-=T
     set guioptions-=e
     set t_Co=256
     set guitablabel=%M\ %t
+    colorscheme batman
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
