@@ -143,3 +143,24 @@ let g:surround_105 = "if (\1condition: \1) {\n\t\r\n}"
 """"""""""""""""""""""""""""""
 let g:yankstack_map_keys = 0
 
+nmap <leader>pp <Plug>yankstack_substitute_older_paste
+nmap <leader>pn <Plug>yankstack_substitute_newer_paste
+nmap <leader>yl :Yanks<CR>
+
+""""""""""""""""""""""""""""""
+" => Dragvisuals
+""""""""""""""""""""""""""""""
+vmap  <expr>  <LEFT>   DVB_Drag('left')
+vmap  <expr>  <RIGHT>  DVB_Drag('right')
+vmap  <expr>  <DOWN>   DVB_Drag('down')
+vmap  <expr>  <UP>     DVB_Drag('up')
+vmap  <expr>  D        DVB_Duplicate()
+
+" Remove any introduced trailing whitespace after moving...
+let g:DVB_TrimWS = 1
+
+""""""""""""""""""""""""""""""
+" => Autoswap
+""""""""""""""""""""""""""""""
+" For autoswap to work
+set title titlestring=

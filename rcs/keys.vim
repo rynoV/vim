@@ -1,7 +1,3 @@
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
-
 " Fast saving
 nmap <leader>w :w!<cr>
 
@@ -91,10 +87,6 @@ inoremap <C-h>c <Esc>bywi<<Esc>ea />
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Copy paste
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nmap <leader>pp <Plug>yankstack_substitute_older_paste
-nmap <leader>pn <Plug>yankstack_substitute_newer_paste
-nmap <leader>yl :Yanks<CR>
-
 nnoremap <leader>pl :register<CR>
 nnoremap <leader>pv "+p
 nnoremap <leader>py "0p
