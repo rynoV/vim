@@ -22,9 +22,77 @@ from javascript_snippets import (
 )
 endglobal
 
-###########################################################################
-#                            TextMate Snippets                            #
-###########################################################################
+snippet get "Getter" b
+get $1() {
+	return $2
+}
+endsnippet
+
+snippet san "Sanity document export" b
+export default {
+  title: '$1',
+  name: '$2',
+  type: 'document',
+  fields: [
+    {
+      title: '$3',
+      name: '$4',
+      type: 'string',
+    },
+	],
+  preview: {
+    select: {
+      title: '$4',
+      subtitle: '$4',
+      description: '$4',
+    },
+  },
+}
+endsnippet
+
+snippet sanfo "Sanity field object" b
+{
+	title: '$1',
+	name: '$2',
+	description: '$3',
+	type: '$4',
+},
+endsnippet
+
+snippet sanp "Sanity preview property" b
+preview: {
+	select: {
+		title: '$1',
+		subtitle: '$2',
+		description: '$3',
+	},
+},
+endsnippet
+
+snippet map "Array map"
+$1.map($1$2 => {
+	return $3
+})
+endsnippet
+
+snippet iarr "Inline arrow function"
+($1) => {
+	return $2
+}
+endsnippet
+
+snippet stld "Styled component"
+const $1 = styled.$2\`
+	$3
+\`
+endsnippet
+
+snippet forin "For in"
+for (const $1Key in $2) {
+	const $1Value = $2[$1Key]
+}
+endsnippet
+
 snippet forof "For of"
 for (const $1 of $2) {
 	$3
@@ -47,7 +115,7 @@ $1.map(($2) => {
 })
 endsnippet
 
-snippet get "Get Elements"
+snippet gete "Get Elements"
 getElement${1/(T)|(C)|.*/(?1:s)(?2:s)/}By${1:T}${1/(T)|(I)|(C).*/(?1:agName)(?2:d)(?3:lassName)/}('$2')
 endsnippet
 

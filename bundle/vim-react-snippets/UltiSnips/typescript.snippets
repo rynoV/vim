@@ -1,5 +1,3 @@
-extends html
-
 global !p
 def upperfirst(t):
 	if len(t) < 2:
@@ -9,50 +7,42 @@ def lowerdash(t):
 	return '-'.join([ w.lower() for w in re.findall('[a-z]+|[A-Z]+[a-z]*', t) ])
 endglobal
 
-snippet plh "Template literal placeholder" b
-${$1}
-endsnippet
-
-snippet rrp "React repetitive prop: prop={prop}" b
-$1={$1}
-endsnippet
-
 # Normal javascript snippets
 #
 snippet rc "require package that converts from camelCase or PascalCase to kebab-cased" b
-const $1 = require('$2`!p snip.rv=lowerdash(t[1])`');
+const $1 = require("$2`!p snip.rv=lowerdash(t[1])`");
 endsnippet
 
 snippet imp "import package that converts from camelCase or PascalCase to kebab-cased" b
-import $1 from '$2`!p snip.rv=lowerdash(t[1])`';
+import $1 from "$2`!p snip.rv=lowerdash(t[1])`";
 endsnippet
 
 snippet impf "import File from './File'" b
-import $1 from '${2:./}${3:$1}';
+import $1 from "${2:./}${3:$1}";
 endsnippet
 
 snippet impn "import { nested } from" b
-import { $1 } from '$2';
+import { $1 } from "$2";
 endsnippet
 
-snippet impa "import * as Thing from" b
+snippet impa "import all from a package that converts from camelCase or PascalCase to kebab-cased" b
 import * as $1 from "$2`!p snip.rv=lowerdash(t[1])`";
 endsnippet
 
 snippet impp "import file without a declaration" b
-import '$1';
+import "$1";
 endsnippet
 
 snippet icn "import classnames as cn" b
-import cn from 'classnames';
+import cn from "classnames";
 endsnippet
 
 snippet expf "export File from './File'" b
-export $1 from '${2:./}$1';
+export $1 from "${2:./}$1";
 endsnippet
 
 snippet expn "export nested" b
-export { $1 } from '$2';
+export { $1 } from "$2";
 endsnippet
 
 snippet expd "export { default as File } from './File'" b
@@ -60,7 +50,7 @@ export { default as $1 } from "${2:./}$1";
 endsnippet
 
 snippet expa "export * from" b
-export * from '$1';
+export * from "$1";
 endsnippet
 
 snippet cl "console.log"
@@ -68,7 +58,7 @@ console.log($1);
 endsnippet
 
 snippet clv "console.log variable"
-console.log('$1:', $1);
+console.log("$1:", $1);
 endsnippet
 
 snippet ce "console.error"
@@ -87,112 +77,150 @@ endsnippet
 # Test Snippets
 #
 snippet rtf "React Test File" b
-import React from 'react';
-import { cleanup, render } from 'react-testing-library';
+import React from "react";
+import { cleanup, render } from "react-testing-library";
 
-import ${1:`!v expand('%:t:r')`} from '../$1';
+import ${1:`!v expand('%:t:r')`} from "../$1";
 
 afterEach(cleanup);
 
-describe('$1', () => {
-	it('should $2', () => {
+describe("$1", () => {
+	it("should $2", () => {
 		$3
 	});
 });
 endsnippet
 
 snippet rhtf "React Hooks Test File" b
-import React from 'react';
-import { cleanup, renderHook } from 'react-hooks-testing-library';
+import React from "react";
+import { cleanup, renderHook } from "react-hooks-testing-library";
 
-import { $2 } from '../${1:`!v expand('%:t:r')`}';
+import { $2 } from "../${1:`!v expand('%:t:r')`}";
 
 afterEach(cleanup);
 
-describe('$1', () => {
-	it('should $3', () => {
+describe("$1", () => {
+	it("should $3", () => {
 		$4
 	});
 });
 endsnippet
 
 snippet desc "describe a test" b
-describe('$1', () => {
-	it('should $2', () => {
+describe("$1", () => {
+	it("should $2", () => {
 		$3
 	});
 });
 endsnippet
 
 snippet it "create a test block" b
-it('should $1', () => {
+it("should $1", () => {
 	$2
 });
+endsnippet
+
+snippet intf "create interface for file" b
+export interface ${1:`!v expand('%:t:r')`}$2 {
+}
 endsnippet
 
 # ==========================================
 # React Snippets
 #
-snippet rce "React class exported" b
-import React, { Component } from 'react';
+snippet rce "react class exported" b
+import React, { Component } from "react";
 
 export default class ${1:`!v expand('%:t:r')`} extends Component {
-	constructor(props) {
+	public render() {
+		return ${2:null};$0
+	}
+}
+endsnippet
+
+snippet rcep "react class exported (with prop interface)" b
+import React, { Component } from "react";
+
+export interface $1Props {
+}
+
+export default class ${1:`!v expand('%:t:r')`} extends Component<$1Props> {
+	public render() {
+		return ${2:null};$0
+	}
+}
+endsnippet
+
+snippet rceps "react class exported (with prop and state interfaces)" b
+import React, { Component } from "react";
+
+export interface $1Props {
+}
+
+export interface $1State {
+}
+
+export default class ${1:`!v expand('%:t:r')`} extends Component<$1Props, $1State> {
+	constructor(props: $1Props) {
 		super(props);
 
 		this.state = {};
 	}
 
-	render() {
-		return null;$0
+	public render() {
+		return ${2:null};$0
 	}
 }
 endsnippet
 
 snippet rcc "React class component" b
 class $1 extends Component {
-	render() {
+	public render() {
 		return null;$0
 	}
 }
 endsnippet
 
 snippet rcon "React class constructor" b
-constructor(props) {
+constructor(props: ${1:`!v expand('%:t:r')`}Props) {
 	super(props);
 
 	this.state = ${1:{}};$0
 }
 endsnippet
 
-snippet fce "function component exported" b
-import React from 'react';
+snippet fce "function component export (with prop interface)" b
+import React, { FunctionComponent } from "react";
 
-const ${1:`!v expand('%:t:r')`} = props => {
-	return null;$0
+export interface $1Props {
+	$3
+}
+
+const ${1:`!v expand('%:t:r')`}: FunctionComponent<$2$1Props> = props => {
+	return ${4:null};$0
 };
 
 export default $1;
 endsnippet
 
-snippet sfce "simple function component export (no props)" b
-import React from 'react';
+snippet sfce "simple function component export (no prop interface)" b
+import React, { FunctionComponent } from "react";
 
-const ${1:`!v expand('%:t:r')`} = () => {
-	return null;$0
-};
+const ${1:`!v expand('%:t:r')`}: FunctionComponent = () => ${2:{
+	return ${3:null};$0
+}};
 
 export default $1;
 endsnippet
 
 snippet fc "functional component" b
-const $1 = props => {
+const $1: FunctionComponent$2 = ${3:props} => {
 	return null;$0
 };
 endsnippet
 
 snippet rcf "react class function" b
-$1 = (${2:e}) => {
+$1 = (${2:event}) => {
 	$3
 };
 endsnippet
@@ -201,8 +229,14 @@ endsnippet
 # Component Specs and Lifecycle Section
 #
 snippet sdp "static default props" b
-static defaultProps = {
-	$1
+public static defaultProps = {
+	$2
+};
+endsnippet
+
+snippet sdpt "static default props (typed)" b
+public static defaultProps: DefaultProps = {
+	$2
 };
 endsnippet
 
@@ -212,8 +246,16 @@ ${1:`!v expand('%:t:r')`}.defaultProps = {
 };
 endsnippet
 
+snippet cdpt "component default props (typed)" b
+const defaultProps: $1DefaultProps = {
+	$2
+};
+
+${3:`!v expand('%:t:r')`}.defaultProps = defaultProps;
+endsnippet
+
 snippet spt "static prop types" b
-static propTypes = {
+public static propTypes = {
 	${1:className}: ${2:PropTypes.string},$0
 };
 endsnippet
@@ -225,72 +267,91 @@ ${1:`!v expand('%:t:r')`}.propTypes = {
 endsnippet
 
 snippet gds "get derived state from props" b
-static getDerivedStateFromProps(nextProps, prevState) {
-	return ${1:null};$0
-}
+public static getDerivedStateFromProps(nextProps: ${1:`!v expand('%:t:r')`}Props, prevState: $1State) {
+	return ${2:null};$0
+};
 endsnippet
 
-snippet gde "get derived state from error" b
-static getDerivedStateFromError(error) {
+snippet gde "get derived state from props" b
+public static getDerivedStateFromError(error: Error) {
 	return ${1:null};$0
-}
+};
 endsnippet
 
 snippet cdm "component did mount" b
-componentDidMount() {
+public componentDidMount() {
 	$1
 }
 endsnippet
 
 snippet scu "should component update" b
-shouldComponentUpdate(nextProps, nextState) {
+public shouldComponentUpdate(nextProps: ${1:`!v expand('%:t:r')`}Props, nextState: $1State) {
 	return ${1:true};$0
 }
 endsnippet
 
 snippet gsbu "get snapshot before update" b
-getSnapshotBeforeUpdate(prevProps, prevState) {
-	return ${1:null};$0
+public getSnapshotBeforeUpdate(prevProps: ${1:`!v expand('%:t:r')`}Props, prevState: $1State) {
+	return ${2:null};$0
 }
 endsnippet
 
 snippet cdu "component did update" b
-componentDidUpdate(prevProps, prevState${1:, snapshot}) {
-	$0
+public componentDidUpdate(prevProps: ${1:`!v expand('%:t:r')`}Props, prevState: $1State, ${2:snapshot: any}) {
+	$3
 }
 endsnippet
 
 snippet cdc "component did catch" b
-componentDidCatch(error, info) {
-	$0
+public componentDidCatch(error: Error, info: ErrorInfo) {
+	$1
 }
 endsnippet
 
 snippet cwum "component will unmount" b
-componentWillUnmount() {
+public componentWillUnmount() {
 	$1
 }
 endsnippet
 
-# ==========================================
-# Deprecated Lifecycle Section
-#
-snippet cwm "component will mount" b
-componentWillMount() {
-	$1
-}
+snippet r.me "React.MouseEvent" w
+React.MouseEvent$0
 endsnippet
 
-snippet cwrp "component will receive props" b
-componentWillReceiveProps(nextProps) {
-	$1
-}
+snippet r.te "React.TouchEvent" w
+React.TouchEvent$0
 endsnippet
 
-snippet cwu "component will update" b
-componentWillUpdate(nextProps, nextState) {
-	$3
-}
+snippet r.ke "React.KeyboardEvent" w
+React.KeyboardEvent$0
+endsnippet
+
+snippet r.ce "React.ChangeEvent" w
+React.ChangeEvent$0
+endsnippet
+
+snippet r.fo "React.FocusEvent" w
+React.FocusEvent$0
+endsnippet
+
+snippet r.meh "React.MouseEventHandler" w
+React.MouseEventHandler$0
+endsnippet
+
+snippet r.teh "React.TouchEventHandler" w
+React.TouchEventHandler$0
+endsnippet
+
+snippet r.keh "React.KeyboardEventHandler" w
+React.KeyboardEventHandler$0
+endsnippet
+
+snippet r.ceh "React.ChangeEventHandler" w
+React.ChangeEventHandler$0
+endsnippet
+
+snippet r.foh "React.FocusEventHandler" w
+React.FocusEventHandler$0
 endsnippet
 
 
@@ -299,7 +360,7 @@ endsnippet
 #
 
 snippet useS "useState()" b
-const [$1, set$3`!p snip.rv=upperfirst(t[1])`] = useState($2);
+const [$1, set$4`!p snip.rv=upperfirst(t[1])`] = useState$3($2);$0
 endsnippet
 
 snippet useE "useEffect()" b
@@ -309,17 +370,21 @@ useEffect(() => {
 endsnippet
 
 snippet useC "useContext()" b
-const ${1:context} = useContext($2);
+${5:const ${1:context} =} useContext$3($2);$0
 endsnippet
 
 priority -1
 snippet useC "useContext()" w
-useContext($1);
+useContext$2($1);
 endsnippet
 
 priority 0
 snippet useRed "useReducer(reducer, initialValue)" b
-const [${3:state}, ${4:dispatch}] = useReducer(${1:reducer}, ${2:null});
+const [${4:state}, ${5:dispatch}] = useReducer<typeof $2>(${2:reducer}, ${3:null});
+endsnippet
+
+snippet useRedUT "use reducer untyped" b
+const [${3:state}, ${4:dispatch}] = useReducer($1, ${2:{}});
 endsnippet
 
 snippet useCB "useCallback(fn, inputs)" b
@@ -335,7 +400,7 @@ const ${1:memoized} = useMemo(() => ${2:{
 endsnippet
 
 snippet useR "useRef(defaultValue)" b
-const ${1:ref} = useRef(${2:null});
+const ${1:ref} = useRef$3(${2:null});$0
 endsnippet
 
 snippet useI "useImperitiveHandle(ref, createHandle, [inputs])" b
@@ -359,61 +424,23 @@ endsnippet
 #
 
 snippet fref "React forward ref" b
-export default forwardRef((props, ref) => <${1:`!v expand('%:t:r')`} {...props} ${2:forwardedRef}={ref} />);
+export default forwardRef<$2Element, $1Props>((props, ref) => <${1:`!v expand('%:t:r')`} {...props} ${3:forwardedRef}={ref} />);
 endsnippet
 
 priority -1
 snippet fref "React forward ref" w
-forwardRef((props, ref) => <${1:`!v expand('%:t:r')`} {...props} ${2:forwardedRef}={ref} />);
+forwardRef<$2Element, $1Props>((props, ref) => <${1:`!v expand('%:t:r')`} {...props} ${3:forwardedRef}={ref} />);
 endsnippet
 
 priority 0
 snippet cc "React create context" b
-export const $1 = createContext($2);
-endsnippet
-
-snippet @c "@connect" b
-@connect(${1:state})
-endsnippet
-
-snippet @ca "@connectAdvanced" b
-@connectAdvanced(${1:dispatch} => {
-	$2
-	return (${3:state}${4:, props}) => {
-		$0
-		return {};
-	};
-})
-endsnippet
-
-snippet cf "connect function" w
-connect(${1:state})(${2:`!v expand('%:t:r')`});
-endsnippet
-
-snippet caf "connect advanced function" w
-connectAdvanced(${1:dispatch} => {
-	$2
-	return (${3:state}${4:, props}) => {
-		$5
-		return {};
-	};
-})(${6:`!v expand('%:t:r')`});
-endsnippet
-
-snippet bac "bind action creators" b
-const ${1:actions} = bindActionCreators({ $2 }, dispatch);$0
-endsnippet
-
-priority -1
-snippet bac "bind action creators" w
-bindActionCreators({ $1 }, dispatch);$0
+export const $1 = createContext$3($2);$0
 endsnippet
 
 # ==========================================
-# Prop Types Section
+# Prop Types Section (only for legacy)
 #
 
-priority 0
 # Inline prop types
 snippet pt.a "PropTypes.array" w
 PropTypes.array
@@ -504,11 +531,11 @@ PropTypes.objectOf(${1:PropTypes.string}).isRequired
 endsnippet
 
 snippet pt.one "PropTypes.oneOf([])" w
-PropTypes.oneOf(['$1'$2])
+PropTypes.oneOf(["$1"$2])
 endsnippet
 
 snippet pt.oner "PropTypes.oneOf([]).isRequired" w
-PropTypes.oneOf(['$1'$2]).isRequired
+PropTypes.oneOf(["$1"$2]).isRequired
 endsnippet
 
 snippet pt.onet "PropTYpes.oneOfType([])" w
